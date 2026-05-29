@@ -6,9 +6,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 🔓 KONFIGURASI CORS AMAN: Mengunci akses hanya untuk frontend localhost:3001
+  // 🔓 KONFIGURASI CORS AMAN: Mengunci akses hanya untuk frontend localhost:3000
   app.enableCors({
-    origin: 'http://localhost:3001', // Hanya alamat ini yang diizinkan mengakses backend
+    origin: 'http://localhost:3000', // Hanya alamat ini yang diizinkan mengakses backend
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Metode HTTP yang diperbolehkan
     credentials: true, // Izinkan jika frontend mengirimkan cookie/header otentikasi
   });
