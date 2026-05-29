@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateTableDto, UpdateTableStatusDto } from './dto/table.dto';
 
 @ApiTags('5. Denah Meja Restoran')
 @Controller('table')
@@ -15,7 +16,7 @@ export class TableController {
   @Post()
   @Roles('ADMIN')
   @ApiOperation({ summary: '👑 [ADMIN ONLY] Menambahkan unit meja fisik baru ke dalam sistem' })
-  async create(@Body() body: { number: string }) {
+  async create(@Body() body: CreateTableDto) {
     return this.tableService.create(body);
   }
 
@@ -29,7 +30,7 @@ export class TableController {
   @Put(':id/status')
   @Roles('ADMIN') // Mengubah status manual meja di luar sistem transaksi adalah wewenang Admin
   @ApiOperation({ summary: '👑 [ADMIN ONLY] Mengubah status ketersediaan meja secara manual' })
-  async updateStatus(@Param('id', ParseIntPipe) id: number, @Body('status') status: 'AVAILABLE' | 'OCCUPIED') {
+  async updateStatus(@Param('id', ParseIntPipe) id: number, @Body() { status }: UpdateTableStatusDto) {
     return this.tableService.updateStatus(id, status);
   }
 }

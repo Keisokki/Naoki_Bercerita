@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreatePromoDto } from './dto/promo.dto';
 
 @ApiTags('4. Voucher Promo Diskon')
 @Controller('promo')
@@ -15,7 +16,7 @@ export class PromoController {
   @Post()
   @Roles('ADMIN')
   @ApiOperation({ summary: '👑 [ADMIN ONLY] Membuat kode voucher diskon baru (Nominal Rupiah / Persen)' })
-  async create(@Body() body: { code: string; name: string; discount: number; isPercent?: boolean; expiresAt: string }) {
+  async create(@Body() body: CreatePromoDto) {
     return this.promoService.create(body);
   }
 

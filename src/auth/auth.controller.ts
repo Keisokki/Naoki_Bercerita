@@ -1,6 +1,8 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @ApiTags('1. Sistem Otentikasi (Auth)')
 @Controller('auth')
@@ -9,13 +11,13 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({ summary: '👤 [PUBLIK] Registrasi akun karyawan baru (ADMIN / KASIR)' })
-  async register(@Body() body: any) {
+  async register(@Body() body: RegisterDto) {
     return this.authService.register(body);
   }
 
   @Post('login')
   @ApiOperation({ summary: '👤 [PUBLIK] Login akun untuk mendapatkan access_token JWT' })
-  async login(@Body() body: any) {
+  async login(@Body() body: LoginDto) {
     return this.authService.login(body);
   }
   

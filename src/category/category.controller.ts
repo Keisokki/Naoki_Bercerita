@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateCategoryDto } from './dto/category.dto';
 
 @ApiTags('2. Kelola Kategori Menu')
 @Controller('category')
@@ -15,7 +16,7 @@ export class CategoryController {
   @Roles('ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: '👑 [ADMIN ONLY] Membuat kategori menu makanan/minuman baru' })
-  async create(@Body() body: { name: string }) {
+  async create(@Body() body: CreateCategoryDto) {
     return this.categoryService.create(body);
   }
 
@@ -36,7 +37,7 @@ export class CategoryController {
   @Roles('ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: '👑 [ADMIN ONLY] Mengubah nama kategori berdasarkan ID' })
-  async update(@Param('id') id: string, @Body() body: { name: string }) {
+  async update(@Param('id') id: string, @Body() body: CreateCategoryDto) {
     return this.categoryService.update(+id, body);
   }
 

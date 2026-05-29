@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ManageMenuDto } from './dto/menu.dto';
 
 @ApiTags('3. Kelola Menu Makanan & Stok')
 @Controller('menu')
@@ -15,7 +16,7 @@ export class MenuController {
   @Roles('ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: '👑 [ADMIN ONLY] Menambah menu makanan baru dan mengisi stok awal dapur' })
-  async create(@Body() body: any) {
+  async create(@Body() body: ManageMenuDto) {
     return this.menuService.create(body);
   }
 
@@ -30,7 +31,7 @@ export class MenuController {
   @Roles('ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: '👑 [ADMIN ONLY] Mengubah informasi menu atau memperbarui jumlah stok' })
-  async update(@Param('id') id: string, @Body() body: any) {
+  async update(@Param('id') id: string, @Body() body: ManageMenuDto) {
     return this.menuService.update(+id, body);
   }
 
