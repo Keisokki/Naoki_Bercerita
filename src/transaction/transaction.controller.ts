@@ -4,7 +4,7 @@ import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { AuthGuard } from '../auth/auth.guard';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CheckoutDto, PaymentDto } from './dto/transaction.dto';
+import { CheckoutDto, PaymentDto } from './dto/transaction.dto'; // 💡 Memastikan import DTO lengkap
 
 @ApiTags('6. Inti Kasir & Transaksi')
 @Controller('transaction')
@@ -16,17 +16,8 @@ export class TransactionController {
   @Post('checkout')
   @Roles('KASIR')
   @ApiOperation({ summary: '🛍️ [KASIR ONLY] Membuat pesanan baru pelanggan (Auto kunci meja & potong stok)' })
-  async checkout(
-    @Body()
-    body: {
-      customerName: string;
-      orderType: 'DINE_IN' | 'TAKEAWAY';
-      tableId?: number;
-      userId?: number;
-      promoCode?: string;
-      items: { menuId: number; quantity: number }[];
-    },
-  ) {
+  async checkout(@Body() body: CheckoutDto) {
+    // 🆕 Sudah diganti menggunakan CheckoutDto agar tervalidasi aman oleh ValidationPipe global
     return this.transactionService.create(body);
   }
 
@@ -50,8 +41,9 @@ export class TransactionController {
   @Put(':id/cancel')
   @Roles('KASIR', 'ADMIN')
   @ApiOperation({ summary: '❌ [KASIR / ADMIN] Membatalkan pesanan belum lunas & otomatis mengosongkan meja' })
-  async cancelTransaction(@Param('id') id: string) {
-    return this.transactionService.cancelTransaction(+id);
+  async cancelTransaction(@Param('id', ParseIntPipe) id: number) {
+    // 🆕 Sudah diperbaiki menggunakan ParseIntPipe agar aman berupa tipe data angka murni
+    return this.transactionService.cancelTransaction(id);
   }
 
   @Get('report/sales')
