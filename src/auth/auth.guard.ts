@@ -14,9 +14,9 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Kamu harus login terlebih dahulu (Token Hilang)!');
     }
     try {
-      // Validasi token apakah asli atau palsu
+      // 💡 VALIDASI DIUBAH: Sekarang membaca dari file .env secara dinamis
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: 'KODE_RAHASIA_NAOKI_123', // Pastikan sama dengan secret saat login
+        secret: process.env.jwt_secret || 'DEV_SECRET', // Mengambil dari .env kamu
       });
       // Tempelkan data user yang login ke dalam object request agar bisa dibaca di controller
       request['user'] = payload;
