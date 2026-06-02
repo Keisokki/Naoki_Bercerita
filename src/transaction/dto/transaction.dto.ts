@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, IsArray, IsOptional, ValidateNested } from 'class-validator'; // 🆕 IMPORT INI
-import { Type } from 'class-transformer'; // 🆕 IMPORT INI
+import { IsNotEmpty, IsNumber, IsString, IsArray, IsOptional, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
 class OrderItemDto {
   @ApiProperty({ example: 1, description: 'ID hidangan makanan/minuman' })
   @IsNotEmpty()
-  @IsNumber() // 🔒 Kunci tipe data angka
+  @IsNumber()
   menuId!: number;
 
   @ApiProperty({ example: 2, description: 'Jumlah porsi yang dipesan' })
   @IsNotEmpty()
-  @IsNumber() // 🔒 Kunci tipe data angka
+  @IsNumber()
   quantity!: number;
 }
 
@@ -45,8 +45,8 @@ export class CheckoutDto {
     description: 'Daftar item-item menu hidangan yang dipesan' 
   })
   @IsArray()
-  @ValidateNested({ each: true }) // 🔒 Paksa validasi isi array dalam objek
-  @Type(() => OrderItemDto) // 🔒 Konversi otomatis data JSON menjadi instance class
+  @ValidateNested({ each: true })
+  @Type(() => OrderItemDto)
   items!: OrderItemDto[];
 }
 

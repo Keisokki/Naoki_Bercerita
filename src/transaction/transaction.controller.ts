@@ -17,7 +17,7 @@ export class TransactionController {
   @Roles('KASIR')
   @ApiOperation({ summary: '🛍️ [KASIR ONLY] Membuat pesanan baru pelanggan (Auto kunci meja & potong stok)' })
   async checkout(@Body() body: CheckoutDto) {
-    // 🆕 Sudah diganti menggunakan CheckoutDto agar tervalidasi aman oleh ValidationPipe global
+    // 🆕 Sekarang diikat menggunakan CheckoutDto agar memunculkan skema JSON "quantity" di Swagger UI
     return this.transactionService.create(body);
   }
 
@@ -42,7 +42,7 @@ export class TransactionController {
   @Roles('KASIR', 'ADMIN')
   @ApiOperation({ summary: '❌ [KASIR / ADMIN] Membatalkan pesanan belum lunas & otomatis mengosongkan meja' })
   async cancelTransaction(@Param('id', ParseIntPipe) id: number) {
-    // 🆕 Sudah diperbaiki menggunakan ParseIntPipe agar aman berupa tipe data angka murni
+    // Diperbaiki menggunakan ParseIntPipe agar aman berupa tipe data angka murni
     return this.transactionService.cancelTransaction(id);
   }
 
