@@ -6,7 +6,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CheckoutDto, PaymentDto } from './dto/transaction.dto';
 
-@ApiTags('6. Inti Kasir & Transaksi')
+@ApiTags('6. Kasir & Transaksi')
 @Controller('transaction')
 @UseGuards(AuthGuard, RolesGuard) // 🔒 Seluruh urusan nota wajib memegang token login asli
 @ApiBearerAuth()
@@ -14,7 +14,7 @@ export class TransactionController {
   constructor(private transactionService: TransactionService) {}
 
   @Post('checkout')
-  @Roles('KASIR', 'ADMIN') 
+  @Roles('KASIR', 'ADMIN') // 💻 KASIR dan ADMIN bisa melakukan checkout pesanan
   @ApiOperation({ summary: '🛍️ [KASIR / ADMIN] Membuat pesanan baru pelanggan (Auto kunci meja & potong stok)' })
   async checkout(@Body() body: CheckoutDto) {
     return this.transactionService.create(body);
@@ -28,8 +28,8 @@ export class TransactionController {
   }
 
   @Put(':id/pay')
-  @Roles('KASIR')
-  @ApiOperation({ summary: '💵 [KASIR ONLY] Proses pelunasan pembayaran kasir lokal (TUNAI / QRIS)' })
+  @Roles('KASIR', 'ADMIN') // 🆕 SEKARANG ADMIN JUGA BISA KONFIRMASI PELUNASAN BAYAR!
+  @ApiOperation({ summary: '💵 [KASIR / ADMIN] Proses pelunasan pembayaran kasir lokal (TUNAI / QRIS)' })
   async payTransaction(
     @Param('id', ParseIntPipe) id: number, 
     @Body() body: PaymentDto
