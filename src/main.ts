@@ -9,7 +9,7 @@ async function bootstrap() {
 
   // 🔓 KONFIGURASI CORS AMAN: Mengunci akses hanya untuk frontend localhost:3000
   app.enableCors({
-    origin: 'http://localhost:3000', // Hanya alamat ini yang diizinkan mengakses backend
+    origin: ['http://localhost:3000', 'https://naoki-bercerita.vercel.app'], // Hanya alamat ini yang diizinkan mengakses backend
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
