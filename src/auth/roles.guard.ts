@@ -19,7 +19,11 @@ export class RolesGuard implements CanActivate {
     // Periksa apakah role user ada di dalam daftar role yang diizinkan
     const hasRole = requiredRoles.some((role) => user.role === role);
     if (!hasRole) {
-      throw new ForbiddenException('Akses ditolak! Akun Anda tidak memiliki otoritas (Harus ADMIN).');
+      // 🆕 SEKARANG PESAN EROR SUDAH DINAMIS MENGGUNTING DAFTAR ROLE YANG DIBUTUHKAN!
+      const allowedRoles = requiredRoles.join(' atau ');
+      throw new ForbiddenException(
+        `Akses ditolak! Akun Anda tidak memiliki otoritas (Hanya diizinkan untuk role: ${allowedRoles}).`
+      );
     }
     return true;
   }
